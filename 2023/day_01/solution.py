@@ -1,6 +1,6 @@
 from generics import *
 
-input = get_input_file("2023/day_01/input.txt")
+input = get_input_file("2023/day_01/")
 
 # Part 2
 
