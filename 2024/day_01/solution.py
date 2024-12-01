@@ -1,25 +1,20 @@
 from aoc_tools import *
+from collections import Counter
 
 def find(input) -> int:
     left_list = []
     right_list = []
     for sec in input:
-        split_sec = sec.split("   ")
+        split_sec = get_numbers(sec)
         left_list.append(split_sec[0])
         right_list.append(split_sec[1])
     
-    checked_similarities = {}
+    r_count = Counter(right_list)
     total_similarity = 0
 
-    for i, num in enumerate(left_list):
-        if num in checked_similarities.keys():
-            total_similarity += checked_similarities[num]
-            continue
+    for l_num in left_list:
+        total_similarity += l_num * r_count[l_num]
 
-        instances = len([x for x in right_list if x == num])
-        similarity = int(num) * instances
-        total_similarity += similarity
-        checked_similarities[num] = similarity
     
     return total_similarity
 
