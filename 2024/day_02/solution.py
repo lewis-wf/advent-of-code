@@ -1,6 +1,7 @@
 from aoc_tools import *
 
 def process_line(line) -> tuple[bool, int | None]:
+    # Strictly decreasing/increasing
     if not ( all(a > b for a, b in zip(line, line[1:])) or all(a < b for a, b in zip(line, line[1:])) ):
         return False
     for ni, num in enumerate(line):
@@ -18,26 +19,10 @@ def find(input) -> int:
 
     total = 0
     for line in lines:
-        llen = len(line)
-        index = 0
-
-        cline = line.copy()
-        while True:
-            valid = process_line(line)
-            if index == llen:
-                break
-
-            if not valid:
-                line = cline.copy()
-                del line[index]
-                index += 1
-            else:
-                break
-
-        if valid:
+        # This pattern concats a list for each index in the line list, with every element before i [:i] and every element after i [i+1:] so that we can see if it passes without a given element
+        # Much simpler!
+        if process_line(line) or any(process_line(line[:i] + line[i+1:]) for i in range(len(line))):
             total += 1
-        else:
-            pass
     return total
         
                 
