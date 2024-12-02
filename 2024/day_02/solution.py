@@ -1,22 +1,16 @@
 from aoc_tools import *
 
 def process_line(line) -> tuple[bool, int | None]:
-    increasing = False
+    if not ( all(a > b for a, b in zip(line, line[1:])) or all(a < b for a, b in zip(line, line[1:])) ):
+        return False
     for ni, num in enumerate(line):
         if ni == 0:
             continue
-        if ni == 1:
-            increasing = True if num > line[ni-1] else False
         if 0 < abs(num - line[ni-1]) <= 3:
-            if increasing and num > line[ni-1]:
-                continue
-            elif not increasing and num < line[ni-1]:
-                continue
-            else:
-                return False
+            continue
         else:
             return False
-    
+        
     return True
 
 def find(input) -> int:
