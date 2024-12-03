@@ -34,7 +34,7 @@ def test():
 1 3 2 4 5
 8 6 4 4 1
 1 3 6 7 9"""
-    test_input = [line.strip().replace("\n", "") for line in test_input.split("\n")]
+    test_input = normalise_test_input(test_input)
 
     assert find(test_input) == 4
 
