@@ -4,4 +4,7 @@ create YEAR DAY:
 
 get YEAR DAY:
     ./get_data.sh {{YEAR}} {{DAY}}
-    
+
+all YEAR DAY:
+    just create {{YEAR}} {{DAY}}
+    just get {{YEAR}} {{DAY}}
