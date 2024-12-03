@@ -1,8 +1,10 @@
 from aoc_tools import *
 import re
+# This is naughty but I trust Mr Advent of Code...should I?
 from ast import literal_eval 
 
 def find(input) -> int:
+    # It would be better to use named capture groups, but this was faster and made it easier to track state
     all_matches_pattern = r"mul(\(\d{1,3},\d{1,3}\))|(do\(\))|(don't\(\))"
     
     instructions = []
