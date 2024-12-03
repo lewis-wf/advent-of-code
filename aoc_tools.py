@@ -8,8 +8,6 @@ def get_input_file(dir: str) -> list[str]:
         return [line.strip().replace("\n", "") for line in output]
     
 def get_numbers(input: str) -> list[int]:
-    pattern = r"[1-9][0-9]*|0"
-    matches = []
-    for match in re.findall(pattern, input):
-        matches.append(int(match))
-    return matches
+    pattern = r"-?\d+"
+    matches = re.findall(pattern, input)
+    return [int(m) for m in matches]
