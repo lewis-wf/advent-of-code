@@ -1,6 +1,6 @@
 import re
 
-normalise_test_input = lambda input: [line.strip().replace("\n", "") for line in input.split("\n")]
+def normalise_test_input(input: str) -> list[str]: return [line.strip().replace("\n", "") for line in input.split("\n")]
 
 def get_input_file(dir: str) -> list[str]:
     with open(dir + "input.txt", "r") as f:
