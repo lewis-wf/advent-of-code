@@ -1,24 +1,6 @@
 from collections import defaultdict
 from aoc_tools import *
 
-# X|Y
-# X before Y
-# Second set of data are the lists, in the order of printing
-# Order them correctly and then add up all the middle page numbers to get the answer
-
-# My idea is to have a dict (hashmap) for each X with a set of Ys. Then, when you get to a value, you need to check
-# that every value before it is NOT in the set. If it IS in the set, you need to move your current value back to 
-# before the offending value, and repeat.
-
-# Step 1: create that mapping
-# Step 2: identify offending lines correctly
-
-# Step 3: be able to create the correct order
-
-# Step 4: find the middle value
-# Step 5: add those up
-
-
 def find(input):
     dep_map: dict[str, set] = defaultdict(set)
     split_index = 0
@@ -34,25 +16,29 @@ def find(input):
     query_lines = [l.split(",") for l in input[split_index+1:]]
     
     corrected_lines = []
-    correct_lines = []
     total = 0
     for qline in query_lines:
-        correct = True
-        nqline = qline.copy()
-        for ni, n in enumerate(qline):
-            for nni, nn in enumerate(qline[ni:], 1):
-                if n in dep_map[nn]:
-                    correct = False
-                    # nqline[ni] = nn
-                    # nqline[nni] = n
+        nqline = []
+        while len(nqline) < len(qline):
+            lnqline = len(nqline)
+            for ni, n in enumerate([v for v in qline if v not in nqline]):
+                if lnqline == 0:
+                    if any(n in dep_map[nn] for nn in qline[ni:]):
+                        continue
+                    nqline.append(n)
+                else:
+                    for vi, v in enumerate(nqline):
+                        if n in dep_map[v]:
+                            continue
+                        nqline.insert(vi, n)
+                        break
+                    if vi == len(nqline) -1:
+                        nqline.append(n)
 
-        if correct:
-            correct_lines.append(qline)
-        corrected_lines.append(nqline)
+        if nqline != qline:
+            corrected_lines.append(nqline)
+            total += int(nqline[len(nqline)//2])
 
-        # total += int(nqline[len(nqline)//2])
-    for l in correct_lines:
-        total += int(l[len(l)//2])
     return total
     
 
@@ -89,7 +75,7 @@ def test():
 
     input = normalise_test_input(input)
 
-    assert find(input) == 143
+    assert find(input) == 123
 
 def real():
     input = get_input_file("2024/day_05/")
