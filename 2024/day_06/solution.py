@@ -1,21 +1,4 @@
-from enum import Enum
 from aoc_tools import *
-
-class Directions(Enum):
-    north = (-1, 0)
-    east = (0, 1)
-    south = (1, 0)
-    west = (0, -1)
-    
-    @classmethod
-    def next_dir(cls, cur_dir):
-        dirs = [cls.north, cls.east, cls.south, cls.west]
-        index = dirs.index(cur_dir)
-        next = index + 1
-        if next > len(dirs) -1:
-            return dirs[0]
-        else:
-            return dirs[next]
 
 # Rules:
 # Move forward (in the direction you're facing) until you either

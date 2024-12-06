@@ -1,3 +1,4 @@
+from enum import Enum
 import re
 
 # TODO create a class/way of handling/searching/interacting with a 2D matrix, something which would make the code in 2024/04 easier to write/reason about
@@ -5,6 +6,22 @@ import re
 adjacent_cell_offsets = [(-1,0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
 diagonal_cell_offsets = [(-1, 1), (1, 1), (1, -1), (-1, -1)] 
 cross_cell_offsets = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
+class Directions(Enum):
+    north = (-1, 0)
+    east = (0, 1)
+    south = (1, 0)
+    west = (0, -1)
+    
+    @classmethod
+    def next_dir(cls, cur_dir):
+        dirs = [cls.north, cls.east, cls.south, cls.west]
+        index = dirs.index(cur_dir)
+        next = index + 1
+        if next > len(dirs) -1:
+            return dirs[0]
+        else:
+            return dirs[next]
 
 def normalise_test_input(input: str) -> list[str]: return [line.strip().replace("\n", "") for line in input.split("\n")]
 
