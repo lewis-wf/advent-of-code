@@ -33,7 +33,15 @@ def find(input):
                     starting_loc = (li, ci)
                     break
             break
+    guard_route = get_visited(input, starting_loc)
+    total = 0
+    for pos in guard_route:
+        total += check_location(input, starting_loc, pos)
     
+    return total
+
+# Code duplication - yuck!
+def get_visited(input, starting_loc):
     current_direction = Directions.north
     visited_locations = {starting_loc}
     bounds = {len(input), len(input[0]), -1}
@@ -50,8 +58,33 @@ def find(input):
             continue
         visited_locations.add(next_loc)
         cur_loc = next_loc
+    return visited_locations
+
+def check_location(input, starting_loc, obs) -> int:
+    if obs == starting_loc:
+        return 0
     
-    return len(visited_locations)
+    current_direction = Directions.north
+    visited_locations = {(starting_loc, Directions.north)}
+    bounds = {len(input), len(input[0]), -1}
+    cur_loc = starting_loc
+    complete = False
+
+    while not complete:
+        # Move in the current direction
+        next_loc = combine_tuple(cur_loc, current_direction.value)
+        if (next_loc, current_direction) in visited_locations:
+            # We're looping!
+            return 1
+        if next_loc[0] in bounds or next_loc[1] in bounds:
+            complete = True
+            continue
+        if input[next_loc[0]][next_loc[1]] == "#" or next_loc == obs:
+            current_direction = Directions.next_dir(current_direction)
+            continue
+        visited_locations.add((next_loc, current_direction))
+        cur_loc = next_loc
+    return 0
 
 def test():
     input = """....#.....
@@ -67,7 +100,7 @@ def test():
 
     input = normalise_test_input(input)
 
-    assert find(input) == 41
+    assert find(input) == 6
 
 def real():
     input = get_input_file("2024/day_06/")
