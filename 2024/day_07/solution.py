@@ -1,6 +1,9 @@
 from aoc_tools import *
+from operator import add, mul
 
 def recur_check(target, cur_total, index, nums) -> bool:
+    """A clever way to recurse through, but is quite slow! Pretty quick in pypy
+    """
     if index == len(nums):
         return cur_total == target
     
@@ -19,9 +22,20 @@ def find(input):
         nums = get_numbers(line)
         target = nums[0]
         options = nums[1:]
-        # Recursive addition/multiplication
-        if recur_check(target, 0, 0, options):
+        # Solution from 4HbQ on reddit. It works because you store all the intermediate results of each operation being added to the current total
+        # Kinda magic but very clever; we brute force these anyway, so why not try and do all three in one generator
+        # Down to 0.4s with pypy
+        cur = [options[0]]
+        nxt = options[1:]
+        for n in nxt:
+            cur = [op(c, n) for c in cur for op in (add, mul, concat_ints)]
+            
+        if target in cur:
             total += target
+        
+        # My approach:
+        # if recur_check(target, 0, 0, options):
+        #     total += target
 
     return total
 
