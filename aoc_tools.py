@@ -37,3 +37,9 @@ def get_numbers(input: str) -> list[int]:
 
 def combine_tuple(tup_1: tuple[int, int], tup_2: tuple[int, int]) -> tuple[int, int]:
     return ( tup_1[0] + tup_2[0], tup_1[1] + tup_2[1] )
+
+def is_prime(num):
+    for n in range(2,int(num**0.5)+1):
+        if num % n == 0:
+            return False
+    return True
