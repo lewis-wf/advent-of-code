@@ -1,12 +1,5 @@
 from aoc_tools import *
 
-# Operators are + and *
-# Each line evaluated l -> r
-# need to insert operators between the values until the total = the pre-colon number
-# brute force would be to attempt to times all values, then progressively replace * with +
-# until you have tried one in each position. There might be a faster way?
-# Add the pre-colon number to a sum total as soon as it turns out to be valid
-
 def recur_check(target, cur_total, index, nums) -> bool:
     if index == len(nums):
         return cur_total == target
