@@ -5,14 +5,13 @@ def recur_check(target, cur_total, index, nums) -> bool:
         return cur_total == target
     
     addition = recur_check(target, cur_total + nums[index], index + 1, nums)
-    concat = recur_check(target, int(str(cur_total) + str(nums[index])), index + 1, nums)
+    concat = recur_check(target, concat_ints(cur_total, nums[index]), index + 1, nums)
 
     if cur_total == 0:
         cur_total = 1
     
     multiplication = recur_check(target, cur_total * nums[index], index + 1, nums)
     return addition or multiplication or concat
-
 
 def find(input):
     total = 0

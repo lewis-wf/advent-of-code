@@ -1,4 +1,5 @@
 from enum import Enum
+from math import log
 import re
 
 # TODO create a class/way of handling/searching/interacting with a 2D matrix, something which would make the code in 2024/04 easier to write/reason about
@@ -43,3 +44,8 @@ def is_prime(num):
         if num % n == 0:
             return False
     return True
+
+def concat_ints(left: int, right: int) -> int:
+    """Efficiently concats two ints [thanks Stack Overflow].
+    Only significantly more efficient on pypy"""
+    return 10**int(log(right, 10)+1)*left+right
