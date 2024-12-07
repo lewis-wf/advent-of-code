@@ -47,5 +47,5 @@ def is_prime(num):
 
 def concat_ints(left: int, right: int) -> int:
     """Efficiently concats two ints [thanks Stack Overflow].
-    Only significantly more efficient on pypy"""
+    """
     return 10**int(log(right, 10)+1)*left+right
