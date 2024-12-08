@@ -32,7 +32,6 @@ def find(input):
         neg_nodes = gen_nodes(pair[1], flip_tuple(diff), bounds)
         antinodes.update(pos_nodes+neg_nodes+list(pair))
 
-    # print(len(antinodes), antinodes)
     return len(antinodes)
 
 
