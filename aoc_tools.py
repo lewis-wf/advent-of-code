@@ -1,4 +1,5 @@
 from enum import Enum
+import itertools
 from math import log
 import re
 
@@ -24,6 +25,11 @@ class Directions(Enum):
         else:
             return dirs[next]
 
+def is_out_of_bounds(loc: tuple[int, int], bounds: tuple[int, int]) -> bool:
+    if loc[0] < 0 or loc[0] >= bounds[0] or loc[1] < 0 or loc[1] >= bounds[1]:
+        return True
+    return False
+
 def normalise_test_input(input: str) -> list[str]: return [line.strip().replace("\n", "") for line in input.split("\n")]
 
 def get_input_file(dir: str) -> list[str]:
@@ -38,6 +44,16 @@ def get_numbers(input: str) -> list[int]:
 
 def combine_tuple(tup_1: tuple[int, int], tup_2: tuple[int, int]) -> tuple[int, int]:
     return ( tup_1[0] + tup_2[0], tup_1[1] + tup_2[1] )
+
+def tuple_difference(tup_1: tuple[int, int], tup_2: tuple[int, int]) -> tuple[int, int]:
+    return ( tup_1[0] - tup_2[0], tup_1[1] - tup_2[1] )
+
+def flatten(nested_list: list[list]) -> list:
+    return list(itertools.chain(*nested_list))
+
+def flip(x: int): return x // -1
+def flip_tuple(tup: tuple[int, int]) -> tuple[int, int]:
+    return ( tup[0] // -1, tup[1] // -1 )
 
 def is_prime(num):
     for n in range(2,int(num**0.5)+1):
