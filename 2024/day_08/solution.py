@@ -19,6 +19,15 @@ from aoc_tools import *
 # then offsets + 1 step in each direction
 # then see if we match the test!
 
+def gen_nodes(start_pos: tuple[int, int], offset: tuple[int, int], bounds: tuple[int, int]) -> list[tuple]:
+    nodes = []
+    nxt_pos = start_pos
+    while True:
+        nxt_pos = combine_tuple(nxt_pos, offset)
+        if is_out_of_bounds(nxt_pos, bounds):
+            return nodes
+        nodes.append(nxt_pos)
+
 def find(input):
     input_grid = [list(l) for l in input]
     bounds = (len(input), len(input[0]))
@@ -36,19 +45,12 @@ def find(input):
     antinodes: set[tuple[int, int]] = set()
     for pair in pairs_list:
         diff = tuple_difference(pair[0], pair[1])
-        fst_node = combine_tuple(pair[0], diff)
-        snd_node = combine_tuple(pair[1], flip_tuple(diff))
-        if not is_out_of_bounds(fst_node, bounds):
-            input_grid[fst_node[0]][fst_node[1]] = "#"
-            antinodes.add(fst_node)
-        if not is_out_of_bounds(snd_node, bounds):
-            input_grid[snd_node[0]][snd_node[1]] = "#"
-            antinodes.add(snd_node)
+        pos_nodes = gen_nodes(pair[0], diff, bounds)
+        neg_nodes = gen_nodes(pair[1], flip_tuple(diff), bounds)
+        antinodes.update(pos_nodes+neg_nodes+list(pair))
 
     # print(len(antinodes), antinodes)
     return len(antinodes)
-
-        
 
 
 def test():
@@ -67,7 +69,7 @@ def test():
 
     input = normalise_test_input(input)
 
-    assert find(input) == 14
+    assert find(input) == 34
 
 def real():
     input = get_input_file("2024/day_08/")
